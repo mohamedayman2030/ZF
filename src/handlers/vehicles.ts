@@ -1,8 +1,11 @@
 import express from 'express';
 import {Request,Response} from 'express';
 import {vehicle,vehicles} from '../models/vehicles';
+import { helper } from '../models/helper';
 
 const thevehicles = new vehicles();
+
+const help = new helper()
 
 const index = async (req:Request,res:Response)=>{
     const allvehicles = await thevehicles.index();
@@ -37,10 +40,21 @@ res.json(targetvehicle);
     }
 }
 
+const vehicleDamages = async (req:Request,res:Response)=> {
+    try {
+        const damages = await help.index(req.params.id);
+        res.json(damages);
+    }
+    catch(err){
+        res.status(500).json(err);
+    }
+}
+
 
 const vehicleRoutes = (app:express.Application)=>{
     app.get('/vehicles',index);
     app.get('/vehicles/:id',show);
+    app.get('/vehicles/:id/damages',vehicleDamages);
     app.post('/vehicles',create);
 }
 

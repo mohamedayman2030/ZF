@@ -12,7 +12,7 @@ export class nd {
     async create(v:vd):Promise<vd> {
         try {
             const conn = await client.connect();
-            const sql = 'INSERT INTO vehicles (vehicle_license,damage_id) VALUES ($1,$2) RETURNING *';
+            const sql = 'INSERT INTO vehicledamages (vehicle_id,damage_id) VALUES ($1,$2) RETURNING *';
             const result = await conn.query(sql,[v.vehicle_lisence,v.damage_id]);
              conn.release();
             return result.rows[0];
